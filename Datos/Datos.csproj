@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="D_Usuario.cs" />
+    <Compile Include="Model\ClaseExt\Usuario.cs" />
     <Compile Include="Model\Contacto.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

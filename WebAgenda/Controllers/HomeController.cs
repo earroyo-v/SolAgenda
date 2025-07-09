@@ -13,5 +13,13 @@ namespace WebAgenda.Controllers
         {
             return View("LoginView");
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+        public ActionResult UserCreateView()
+        {
+            return View();
+        }
     }
 }

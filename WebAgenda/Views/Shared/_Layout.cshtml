@@ -64,7 +64,15 @@
             </div>
         </div>
     </nav>
-
+    @{
+        Datos.Model.Usuario us = new Datos.Model.Usuario();
+        if (Session["Usuario"] != null)
+        {
+            us = (Datos.Model.Usuario)Session["Usuario"];
+        }
+     }
+    <h3>@us.NickName</h3>
+    <a href="/Home/LogOut">Cerrar Sesion</a>
     <div class="container body-content">
         <br />
         @if (TempData["m"] != null)

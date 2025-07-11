@@ -33,5 +33,14 @@ namespace Negocio
         {
             datos.Delete(id);
         }
+        public Usuario ValidarIngreso(string usr, string pssw)
+        {
+            Usuario usuario = datos.ReadUser(usr, pssw);
+            if (usuario == null)
+            {
+                throw new System.Exception("Usuario o contrasena incorrectos");
+            }
+            return usuario;
+        }
     }
 }

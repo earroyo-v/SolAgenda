@@ -91,5 +91,21 @@ namespace Datos
                 throw ex;
             }
         }
+        public Usuario ReadUser(string usr, string pssw)
+        {
+            Usuario usuario = new Usuario();
+            try
+            {                
+                using (var db = new GENERACION33Entities())
+                {
+                    usuario = db.Usuario.Where(x => x.Email == usr && x.Password == pssw).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return usuario;
+        }
     }
 }

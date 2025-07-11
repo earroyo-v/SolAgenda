@@ -16,26 +16,50 @@ namespace WebAgenda.Controllers
         {
             return View("LoginView");
         }
-        public ActionResult Login()
+        public ActionResult LogIn(string User, string Password)
         {
-            return View();
+            try
+            {
+                Usuario user = neg.ValidarIngreso(User, Password);
+                Session["Usuario"] = user;
+                return RedirectToAction("Index", "Agenda");
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
         public ActionResult UserCreateView()
         {
             return View();
         }
         public ActionResult AgregarUsuario(Usuario user)
-        {            
+        {
             try
             {
                 neg.Agregar(user);
                 TempData["m"] = "El usuario se agrego correctamente";
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 TempData["e"] = ex.Message;
+                return RedirectToAction("UserCreateView");
             }
-            return RedirectToAction("Index");
+        }
+        public ActionResult LogOut()
+        {
+            try
+            {
+                Session["Usuario"] = null;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
     }
 }

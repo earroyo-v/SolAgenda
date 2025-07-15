@@ -12,6 +12,8 @@ namespace Datos.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class GENERACION33Entities : DbContext
     {
@@ -29,5 +31,18 @@ namespace Datos.Model
         public virtual DbSet<ContactoRedSocial> ContactoRedSocial { get; set; }
         public virtual DbSet<RedSocial> RedSocial { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+    
+        public virtual ObjectResult<spPerfilSocial_Result> spPerfilSocial(Nullable<int> idUsuario, Nullable<int> idContacto)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var idContactoParameter = idContacto.HasValue ?
+                new ObjectParameter("IdContacto", idContacto) :
+                new ObjectParameter("IdContacto", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spPerfilSocial_Result>("spPerfilSocial", idUsuarioParameter, idContactoParameter);
+        }
     }
 }

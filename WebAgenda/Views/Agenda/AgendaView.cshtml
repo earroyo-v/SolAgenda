@@ -1,13 +1,14 @@
-﻿@model IEnumerable<Datos.Model.Contacto>
+﻿@model IEnumerable<WebAgenda.Models.ContactoViewModel>
 
 @{
+    Layout = "~/Views/Shared/_LayoutAgenda.cshtml";
     ViewBag.Title = "AgendaView";
 }
 
 <h2>AgendaView</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "AgregarView")
 </p>
 <table class="table">
     <tr>
@@ -24,6 +25,9 @@
             @Html.DisplayNameFor(model => model.FechaNacimiento)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Edad)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Foto)
         </th>
         <th>
@@ -33,43 +37,59 @@
             @Html.DisplayNameFor(model => model.Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Usuario.Nombre)
+            @Html.DisplayNameFor(model => model.IdUsuario)
         </th>
+        @foreach (var RedSocial in Model.First().RedSocial)
+        {
+            <th>
+                @RedSocial
+            </th>
+        }
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApellidoPaterno)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApellidoMaterno)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaNacimiento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Foto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telefono)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.Nombre)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdContacto }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdContacto }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdContacto })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Edad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Foto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuario)
+            </td>
+            @foreach (var perfil in item.Perfil)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => perfil)
+                </td>
+            }
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.IdContacto }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IdContacto }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.IdContacto })
+            </td>
+        </tr>
+    }
 
 </table>

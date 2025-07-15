@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="D_Contacto.cs" />
+    <Compile Include="D_PerfilSocial.cs" />
+    <Compile Include="D_RedSocial.cs" />
     <Compile Include="D_Usuario.cs" />
     <Compile Include="Model\ClaseExt\Usuario.cs" />
     <Compile Include="Model\Contacto.cs">
@@ -79,6 +82,9 @@
     <Compile Include="Model\RedSocial.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\spPerfilSocial_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Usuario.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -98,7 +104,6 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Model\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Negocio;
+using WebAgenda.Models;
 
 namespace WebAgenda.Controllers
 {
@@ -20,7 +21,19 @@ namespace WebAgenda.Controllers
         {
             try
             {
-                Usuario user = neg.ValidarIngreso(User, Password);
+                Usuario data = neg.ValidarIngreso(User, Password);
+                UsuarioSessionViewModel user = new UsuarioSessionViewModel()
+                {                    
+                    IdUsuario = data.IdUsuario,
+                    Nombre = data.Nombre,
+                    ApellidoPaterno = data.ApellidoPaterno,
+                    ApellidoMaterno = data.ApellidoMaterno,
+                    FechaNacimiento = data.FechaNacimiento,
+                    Email = data.Email,
+                    NickName = data.NickName,
+                    Foto = data.Foto,
+                    UrlPerfil = data.UrlPerfil
+                };
                 Session["Usuario"] = user;
                 return RedirectToAction("Index", "Agenda");
             }

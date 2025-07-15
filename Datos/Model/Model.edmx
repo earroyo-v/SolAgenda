@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GENERACION33Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GENERACION33Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contacto">
           <Key>
             <PropertyRef Name="IdContacto" />
@@ -86,6 +86,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spPerfilSocial" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="IdContacto" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="GENERACION33ModelStoreContainer">
           <EntitySet Name="Contacto" EntityType="Self.Contacto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactoRedSocial" EntityType="Self.ContactoRedSocial" Schema="dbo" store:Type="Tables" />
@@ -104,8 +108,7 @@
             <End Role="ContactoRedSocial" EntitySet="ContactoRedSocial" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GENERACION33Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -213,7 +216,15 @@
             <End Role="RedSocial" EntitySet="RedSocial" />
             <End Role="ContactoRedSocial" EntitySet="ContactoRedSocial" />
           </AssociationSet>
+          <FunctionImport Name="spPerfilSocial" ReturnType="Collection(GENERACION33Model.spPerfilSocial_Result)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="IdContacto" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="spPerfilSocial_Result">
+          <Property Type="String" Name="RedSocial" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UrlPerfil" Nullable="true" MaxLength="100" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -269,6 +280,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spPerfilSocial" FunctionName="GENERACION33Model.Store.spPerfilSocial">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENERACION33Model.spPerfilSocial_Result">
+                <ScalarProperty Name="RedSocial" ColumnName="RedSocial" />
+                <ScalarProperty Name="UrlPerfil" ColumnName="UrlPerfil" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

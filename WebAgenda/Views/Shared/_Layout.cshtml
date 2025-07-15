@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>*@
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+    @*<nav class="navbar navbar-expand-lg navbar-dark bg-black">
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="/Home/Index">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/Home/AgregarView">Agregar</a>
                     </li>
-                    @*<li class="nav-item">
+                    <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                             </li>
                         <li class="nav-item">
@@ -55,7 +55,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>*@
+                        </li>
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="data" />
@@ -63,16 +63,7 @@
                 </form>
             </div>
         </div>
-    </nav>
-    @{
-        Datos.Model.Usuario us = new Datos.Model.Usuario();
-        if (Session["Usuario"] != null)
-        {
-            us = (Datos.Model.Usuario)Session["Usuario"];
-        }
-     }
-    <h3>@us.NickName</h3>
-    <a href="/Home/LogOut">Cerrar Sesion</a>
+    </nav>*@
     <div class="container body-content">
         <br />
         @if (TempData["m"] != null)

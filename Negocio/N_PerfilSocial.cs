@@ -10,9 +10,14 @@ namespace Negocio
 {
     public class N_PerfilSocial
     {
+        D_PerfilSocial perfil = new D_PerfilSocial();
+        public void Agregar(int idContacto, int idRs, string url)
+        {
+            perfil.Create(idContacto, idRs, url);
+        }
         public List<spPerfilSocial_Result> Perfil(int idUser, int idContact)
         {
-            return new D_PerfilSocial().GetLink(idUser,idContact);
+            return perfil.GetLink(idUser, idContact);
         }
     }
 }

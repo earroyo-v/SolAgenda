@@ -9,6 +9,27 @@ namespace Datos
 {
     public class D_PerfilSocial
     {
+        public void Create(int idContact, int idRedSocial, string url)
+        {
+            try
+            {
+                using (var db = new GENERACION33Entities())
+                {
+                    ContactoRedSocial contactoRedSocial = new ContactoRedSocial()
+                    {
+                        IdContacto = idContact,
+                        IdRedSocial = idRedSocial,
+                        UrlPerfil = url
+                    };
+                    db.ContactoRedSocial.Add(contactoRedSocial);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<spPerfilSocial_Result> GetLink(int idUser, int idContact)
         {
             List<spPerfilSocial_Result> list = new List<spPerfilSocial_Result>();
@@ -16,7 +37,7 @@ namespace Datos
             {
                 using (var db = new GENERACION33Entities())
                 {
-                    list = db.spPerfilSocial(idUser,idContact).ToList();
+                    list = db.spPerfilSocial(idUser, idContact).ToList();
                 }
             }
             catch (Exception ex)

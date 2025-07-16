@@ -1,5 +1,6 @@
 Insert Into Usuario Values('Erick','Arroyo','Velasco','1998-12-21','erick@hotmail.com','JAK','12345','','')
 Insert Into Usuario Values('Isabel','Posadas','Camargo','2001-12-17','isa@hotmail.com','Isa','12345','','')
+Insert Into Usuario Values('Paulina','Arroyo','Velasco','1995-06-01','pau@hotmail.com','Pau','12345','','')
 Insert Into Contacto Values('Juan','Peres','','1998-02-01','','555555555','juan_p@yahoo.com','1')
 Insert Into Contacto Values('Anita','La','Huerfanita','1998-01-02','','555555556','anita_h@yahoo.com','1')
 Insert Into Contacto Values('Sara','Posadas','Camrgo','2005-11-02','','555555556','sara@yahoo.com','2')
@@ -42,4 +43,4 @@ left join Usuario as u on u.IdUsuario = c.IdUsuario
 order by r.Nombre asc
 END
 
-exec spPerfilSocial 1, 2
+exec spPerfilSocial 0, 0

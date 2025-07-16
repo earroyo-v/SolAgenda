@@ -1,10 +1,13 @@
-﻿using Datos.Model;
+﻿using Datos;
+using Datos.Model;
 using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using WebAgenda.Models;
 
 namespace WebAgenda.Controllers
@@ -12,6 +15,7 @@ namespace WebAgenda.Controllers
     public class AgendaController : Controller
     {
         N_Contacto datos = new N_Contacto();
+        N_PerfilSocial datosPerfil = new N_PerfilSocial();
         // GET: Agenda
         public ActionResult Index()
         {
@@ -35,7 +39,7 @@ namespace WebAgenda.Controllers
                         Email = item.Email,
                         IdUsuario = item.IdUsuario
                     };
-                    foreach (var otheritem in new N_PerfilSocial().Perfil(item.IdUsuario, item.IdContacto))
+                    foreach (var otheritem in datosPerfil.Perfil(item.IdUsuario, item.IdContacto))
                     {
                         contacto.RedSocial.Add(otheritem.RedSocial);
                         contacto.Perfil.Add(otheritem.UrlPerfil);
@@ -51,11 +55,53 @@ namespace WebAgenda.Controllers
         }
         public ActionResult AgregarView()
         {
+            try
+            {
+                ViewBag.RedSocial = new SelectList(new N_RedSocial().Obtener(), "IdRedSocial", "Nombre");
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+            }
             return View();
         }
-        public ActionResult Agregar(int id)
+        public ActionResult Agregar(ContactoViewModel view)
         {
-            return RedirectToAction("Index");
+            var user = (UsuarioSessionViewModel)Session["Usuario"];
+            try
+            {
+                //Convertir viewmodel a model -> se agrga id user
+                var contacto = new Contacto()
+                {
+                    Nombre = view.Nombre,
+                    ApellidoPaterno = view.ApellidoPaterno,
+                    ApellidoMaterno = view.ApellidoMaterno,
+                    FechaNacimiento = Convert.ToDateTime(view.FechaNacimiento),
+                    Foto = view.Foto,
+                    Telefono = view.Telefono,
+                    Email = view.Email,
+                    IdUsuario = user.IdUsuario
+                };
+                //agregar D_contactos
+                datos.Agregar(contacto);// -> se podria usar trigger cuando se haga el sps de agregar justo despues se agregue el contacto
+                //es el ultimo contacto relacionado al iduser 
+                int IdContacto = datos.Obtener(user.IdUsuario).LastOrDefault().IdContacto;
+                //si hay informacion en el perfil (no en red social) se agrega perfil(tabala relacionada) -> idcontacto, idredsocial                
+                if (view.Perfil[0] != "")
+                {
+                    for (int i = 0; i < view.Perfil.Count; i++)
+                    {
+                        datosPerfil.Agregar(IdContacto, Convert.ToInt32(view.RedSocial[i]), view.Perfil[i]);
+                    }
+                }
+                TempData["m"] = "Contacto Agregado";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+                return RedirectToAction("AgregarView");
+            }
         }
         public ActionResult EditarView()
         {

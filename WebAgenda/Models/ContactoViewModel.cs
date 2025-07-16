@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Negocio;
+using Datos.Model;
+using Datos;
 
 namespace WebAgenda.Models
 {
     public class ContactoViewModel
     {
         public int IdContacto { get; set; }
+        [Display(Name = "Nombre(s)")]
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }

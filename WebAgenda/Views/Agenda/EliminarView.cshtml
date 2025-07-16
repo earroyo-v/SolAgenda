@@ -1,0 +1,105 @@
+﻿@model WebAgenda.Models.ContactoViewModel
+
+@{
+    ViewBag.Title = "EliminarView";
+}
+
+<h2>EliminarView</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ContactoViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdContacto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdContacto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApellidoPaterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApellidoPaterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApellidoMaterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApellidoMaterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaNacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaNacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Foto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Foto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdUsuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Edad)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" formaction="/Agenda/Eliminar/@Model.IdContacto" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

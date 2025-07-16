@@ -19,5 +19,9 @@ namespace Negocio
         {
             return perfil.GetLink(idUser, idContact);
         }
+        public void EliminarContacto(int id)
+        {
+            perfil.DeleteContact(id);
+        }
     }
 }

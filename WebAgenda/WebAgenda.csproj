@@ -175,6 +175,7 @@
     <Content Include="Views\Agenda\AgendaView.cshtml" />
     <Content Include="Views\Shared\_LayoutAgenda.cshtml" />
     <Content Include="Views\Agenda\AgregarView.cshtml" />
+    <Content Include="Views\Agenda\EliminarView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

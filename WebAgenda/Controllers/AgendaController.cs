@@ -111,9 +111,36 @@ namespace WebAgenda.Controllers
         {
             return View();
         }
-        public ActionResult EliminarView()
+        public ActionResult EliminarView(int id)
         {
-            return View();
+            try
+            {
+                var contacto = new ContactoViewModel()
+                {
+                    IdContacto = id
+                };
+                return View(contacto);
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+        public ActionResult Eliminar(int id)
+        {
+            try
+            {
+                datosPerfil.EliminarContacto(id);
+                datos.Delete(id);
+                TempData["m"] = "Se elimino el contacto correctamente";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+                return RedirectToAction("EliminarView", new { id });
+            }
         }
         public ActionResult Buscar()
         {

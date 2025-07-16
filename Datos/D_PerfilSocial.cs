@@ -46,5 +46,20 @@ namespace Datos
             }
             return list;
         }
+        public void DeleteContact(int id)
+        {
+            try
+            {
+                using (var db = new GENERACION33Entities())
+                {
+                    db.ContactoRedSocial.RemoveRange(db.ContactoRedSocial.Where(x => x.IdContacto == id));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

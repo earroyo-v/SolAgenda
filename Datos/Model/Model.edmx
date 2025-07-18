@@ -222,6 +222,9 @@
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spPerfilSocial_Result">
+          <Property Type="Int32" Name="idPerfil" Nullable="true" />
+          <Property Type="Int32" Name="IdContacto" Nullable="true" />
+          <Property Type="Int32" Name="IdRedSocial" Nullable="true" />
           <Property Type="String" Name="RedSocial" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="UrlPerfil" Nullable="true" MaxLength="100" />
         </ComplexType>
@@ -283,6 +286,9 @@
           <FunctionImportMapping FunctionImportName="spPerfilSocial" FunctionName="GENERACION33Model.Store.spPerfilSocial">
             <ResultMapping>
               <ComplexTypeMapping TypeName="GENERACION33Model.spPerfilSocial_Result">
+                <ScalarProperty Name="idPerfil" ColumnName="idPerfil" />
+                <ScalarProperty Name="IdContacto" ColumnName="IdContacto" />
+                <ScalarProperty Name="IdRedSocial" ColumnName="IdRedSocial" />
                 <ScalarProperty Name="RedSocial" ColumnName="RedSocial" />
                 <ScalarProperty Name="UrlPerfil" ColumnName="UrlPerfil" />
               </ComplexTypeMapping>

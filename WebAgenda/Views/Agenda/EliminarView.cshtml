@@ -12,34 +12,12 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.IdContacto)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IdContacto)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
+            Nombre
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ApellidoPaterno)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApellidoPaterno)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ApellidoMaterno)
-        </dt>
-
-        <dd>
+            @Html.DisplayFor(model => model.ApellidoPaterno)        
             @Html.DisplayFor(model => model.ApellidoMaterno)
         </dd>
 
@@ -74,23 +52,6 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IdUsuario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IdUsuario)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Edad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Edad)
-        </dd>
-
     </dl>
 
     @using (Html.BeginForm())

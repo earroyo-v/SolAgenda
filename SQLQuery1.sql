@@ -35,7 +35,7 @@ ALTER PROCEDURE spPerfilSocial
 @IdContacto int
 as
 BEGIN
-select r.Nombre as RedSocial , cr.UrlPerfil
+select cr.IdContactoRedSocial as idPerfil, cr.IdContacto, cr.IdRedSocial, r.Nombre as RedSocial , cr.UrlPerfil
 from RedSocial as r 
 left join ContactoRedSocial as cr on r.IdRedSocial = cr.IdRedSocial and cr.IdContacto = @IdContacto
 left join Contacto as c on c.IdContacto  = cr.IdContacto and c.IdUsuario = @IdUsuario
@@ -43,4 +43,4 @@ left join Usuario as u on u.IdUsuario = c.IdUsuario
 order by r.Nombre asc
 END
 
-exec spPerfilSocial 0, 0
+exec spPerfilSocial 1, 5

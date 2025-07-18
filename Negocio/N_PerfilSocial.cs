@@ -19,9 +19,17 @@ namespace Negocio
         {
             return perfil.GetLink(idUser, idContact);
         }
+        public void Editar(ContactoRedSocial data)
+        {
+            perfil.Edit(data);
+        }
         public void EliminarContacto(int id)
         {
             perfil.DeleteContact(id);
+        }
+        public void EliminarPerfil(int id)
+        {
+            perfil.DeletePerfil(id);
         }
     }
 }

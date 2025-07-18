@@ -1,13 +1,13 @@
 ﻿@model WebAgenda.Models.ContactoViewModel
 
 @{
-    ViewBag.Title = "AgregarView";
+    ViewBag.Title = "EditarView";
 }
 
-<h2>AgregarView</h2>
+<h2>EditarView</h2>
 
 
-@using (Html.BeginForm(Html.BeginForm("Agregar", "Agenda", FormMethod.Post, new { enctype = "multipart/form-data" })))
+@using (Html.BeginForm("Editar", "Agenda", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -15,6 +15,10 @@
         <h4>ContactoViewModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <input type="hidden" name="IdUsuario" value="@Model.IdUsuario" />
+        <input type="hidden" name="IdContacto" value="@Model.IdContacto" />
+
         <div class="form-group">
             @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -49,8 +53,14 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" name="ArchivoImagen" class="form-control" />
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-12 mt-4">
+                    <img src="~/Imagenes/@Model.Foto" class="rounded-circle" width="145" height="145" />
+                    <div class="col-md-10">
+                        <input type="hidden" name="Foto" value="@Model.Foto" />
+                        <input type="file" name="ArchivoImagen" class="form-control" />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -72,7 +82,6 @@
 
         <br />
         <div class="form-group">
-            @*<input type="checkbox" id="chkAgregarRed" />*@
             Agregar Red Social
         </div>
 
@@ -83,12 +92,29 @@
             <button id="btn" type="button" class="btn btn-primary btn-sm" disabled>Agregar Perfil</button>
         </div>
 
-        <div id="contenedor"></div>
+        <div id="contenedor">
 
-        <br />
+            @for (int i = 0; i < Model.Perfil.Count; i++)
+            {
+                var listaRedes = (List<SelectList>)ViewBag.IdRedSocial;
+                <div class="perfil-item">
+                    <div class="d-flex align-items-center mb-2 gap-2">
+                        <input type="hidden" name="IdPerfil[]" value="@Model.IdPerfil[i]" />
+                        @*<input type="hidden" name="IdRedSocial[]" value="@Model.IdRedSocial[i]" />*@
+                        <input type="hidden" name="RedSocial[]" value="@Model.RedSocial[i]" />
+                        @*<span class="form-control form-control-sm w-auto">@Model.RedSocial[i]</span>*@
+                        @Html.DropDownList($"IdRedSocial[]", listaRedes[i], htmlAttributes: new { id = "red", @class = "form-control form-control-sm w-auto" })
+                        <input type="text" name="Perfil[]" value="@Model.Perfil[i]" class="form-control form-control-sm w-auto" />
+                        <a href="/Agenda/EliminarPerfil?idPerfil=@Model.IdPerfil[i]&idContacto=@Model.IdContacto" class="btn btn-warning btn-sm" onclick="return confirm('El perfil se eliminara permanetemente, estas seguro?')">Eliminar</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-outline-success" formaction="/Agenda/Agregar" />
+                <input type="submit" value="Save" class="btn btn-default" formaction="/Agenda/Editar" />
             </div>
         </div>
     </div>
@@ -121,8 +147,6 @@
             else {
                 perfil.style.border = '';
                 ddl.style.border = '';
-                ctn.innerHTML = '';
-                contador = 0;
             }
         });
 
@@ -142,9 +166,9 @@
             div.classList.add('perfil-item');
             div.innerHTML = `
             <div class="d-flex align-items-center mb-2 gap-2">
-                 <input type="hidden" name="RedSocial[]" value="${idred}" />
+                 <input type="hidden" name="IdRedSocial[]" value="${idred}" />
                  <span class="form-control form-control-sm w-auto">${redName}</span>
-                 <input type="text" name="Perfil[]" value="${user}" class="form-control form-control-sm w-auto" readonly/>
+                 <input type="text" name="Perfil[]" value="${user}" class="form-control form-control-sm w-auto"/>
                  <button type="button" style="color: red;" class="btn btn-link btn-sm eliminar">Quitar</button>
             </div>
             `;
@@ -177,3 +201,4 @@
         }
     });
 </script>
+

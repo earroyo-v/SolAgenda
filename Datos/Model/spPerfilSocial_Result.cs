@@ -13,6 +13,9 @@ namespace Datos.Model
     
     public partial class spPerfilSocial_Result
     {
+        public Nullable<int> idPerfil { get; set; }
+        public Nullable<int> IdContacto { get; set; }
+        public Nullable<int> IdRedSocial { get; set; }
         public string RedSocial { get; set; }
         public string UrlPerfil { get; set; }
     }

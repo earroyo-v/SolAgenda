@@ -3,6 +3,7 @@ using Datos.Model;
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
@@ -45,6 +46,7 @@ namespace WebAgenda.Controllers
                         contacto.Perfil.Add(otheritem.UrlPerfil);
                     }
                     list.Add(contacto);
+                    TempData["t"] = list.Count;
                 }
             }
             catch (Exception ex)
@@ -57,19 +59,36 @@ namespace WebAgenda.Controllers
         {
             try
             {
-                ViewBag.RedSocial = new SelectList(new N_RedSocial().Obtener(), "IdRedSocial", "Nombre");
+                ViewBag.RedSocialOpciones = new SelectList(new N_RedSocial().Obtener(), "IdRedSocial", "Nombre");
+                return View();
             }
             catch (Exception ex)
             {
                 TempData["e"] = ex.Message;
+                return RedirectToAction("Index");
             }
-            return View();
         }
-        public ActionResult Agregar(ContactoViewModel view)
+        public ActionResult Agregar(ContactoViewModel view, HttpPostedFileBase ArchivoImagen)
         {
             var user = (UsuarioSessionViewModel)Session["Usuario"];
             try
             {
+                if (ArchivoImagen != null)
+                {
+                    if (ArchivoImagen.ContentType != "image/png" && ArchivoImagen.ContentType != "image/jpeg") throw new Exception("La imagen debe ser .png o jpg");
+                    string path = Server.MapPath("~/Imagenes");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    ArchivoImagen.SaveAs(Path.Combine(Server.MapPath("~/Imagenes"), ArchivoImagen.FileName));
+                    view.Foto = ArchivoImagen.FileName;
+                }
+                else
+                {
+                    view.Foto = "";
+                }
+
                 //Convertir viewmodel a model -> se agrga id user
                 var contacto = new Contacto()
                 {
@@ -87,7 +106,7 @@ namespace WebAgenda.Controllers
                 //es el ultimo contacto relacionado al iduser 
                 int IdContacto = datos.Obtener(user.IdUsuario).LastOrDefault().IdContacto;
                 //si hay informacion en el perfil (no en red social) se agrega perfil(tabala relacionada) -> idcontacto, idredsocial                
-                if (view.Perfil[0] != "")
+                if (view.Perfil.Any())
                 {
                     for (int i = 0; i < view.Perfil.Count; i++)
                     {
@@ -103,23 +122,131 @@ namespace WebAgenda.Controllers
                 return RedirectToAction("AgregarView");
             }
         }
-        public ActionResult EditarView()
+        public ActionResult EditarView(int id)
         {
-            return View();
+            try
+            {
+                Contacto item = datos.ObtenerId(id);
+                var contacto = new ContactoViewModel()
+                {
+                    IdContacto = item.IdContacto,
+                    Nombre = item.Nombre,
+                    ApellidoPaterno = item.ApellidoPaterno,
+                    ApellidoMaterno = item.ApellidoMaterno,
+                    FechaNacimiento = item.FechaNacimiento.ToString("yyyy-MM-dd"),
+                    Foto = item.Foto,
+                    Telefono = item.Telefono,
+                    Email = item.Email,
+                    IdUsuario = item.IdUsuario
+
+                };
+                foreach (var otheritem in datosPerfil.Perfil(item.IdUsuario, item.IdContacto))
+                {
+                    if (otheritem.UrlPerfil != null)
+                    {
+                        contacto.IdPerfil.Add(otheritem.idPerfil.Value);
+                        contacto.IdRedSocial.Add(otheritem.IdRedSocial.Value);
+                        contacto.RedSocial.Add(otheritem.RedSocial);
+                        contacto.Perfil.Add(otheritem.UrlPerfil);
+                    }
+
+                }
+                ViewBag.RedSocialOpciones = new SelectList(new N_RedSocial().Obtener(), "IdRedSocial", "Nombre");
+
+                var opcionesRedes = new List<SelectList>();
+                for (int i = 0; i < contacto.Perfil.Count; i++)
+                {
+                    var selectList = new SelectList(new N_RedSocial().Obtener(), "IdRedSocial", "Nombre", contacto.IdRedSocial[i]);
+                    opcionesRedes.Add(selectList);
+                }
+                ViewBag.IdRedSocial = opcionesRedes;
+                return View(contacto);
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
-        public ActionResult Editar(int id)
+        public ActionResult Editar(ContactoViewModel view, HttpPostedFileBase ArchivoImagen)
         {
-            return View();
+            try
+            {
+                if (ArchivoImagen != null)
+                {
+                    if (ArchivoImagen.ContentType != "image/png" && ArchivoImagen.ContentType != "image/jpeg") throw new Exception("La imagen debe ser .png o jpg");
+                    ArchivoImagen.SaveAs(Path.Combine(Server.MapPath("~/Imagenes"), ArchivoImagen.FileName));
+                    view.Foto = ArchivoImagen.FileName;
+                }
+                else
+                {
+                    view.Foto = "";
+                }
+                //Convertir viewmodel a model
+                var contacto = new Contacto()
+                {
+                    IdContacto = view.IdContacto,
+                    Nombre = view.Nombre,
+                    ApellidoPaterno = view.ApellidoPaterno,
+                    ApellidoMaterno = view.ApellidoMaterno,
+                    FechaNacimiento = Convert.ToDateTime(view.FechaNacimiento),
+                    Foto = view.Foto,
+                    Telefono = view.Telefono,
+                    Email = view.Email,
+                    IdUsuario = view.IdUsuario
+                };
+                //editar D_contactos
+                datos.Editar(contacto);
+                //si hay informacion en el perfil (no en red social) se agrega perfil(tabala relacionada) -> idcontacto, idredsocial                
+                if (view.Perfil.Any())
+                {
+                    for (int i = 0; i < view.Perfil.Count; i++)
+                    {
+                        //Falta un metodo para borrar - en js si lo elimina pero aqui como lo veremos 
+                        try
+                        {
+                            var perfil = new ContactoRedSocial()
+                            {
+                                IdContactoRedSocial = view.IdPerfil[i],
+                                IdContacto = view.IdContacto,
+                                IdRedSocial = view.IdRedSocial[i],
+                                UrlPerfil = view.Perfil[i]
+                            };
+                            datosPerfil.Editar(perfil);
+                        }
+                        catch (Exception)
+                        {
+                            datosPerfil.Agregar(view.IdContacto, Convert.ToInt32(view.IdRedSocial[i]), view.Perfil[i]);
+                        }
+                    }
+                }
+                TempData["m"] = "Se edito el contacto correctamente";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+                return RedirectToAction("EditarView");
+            }
         }
         public ActionResult EliminarView(int id)
         {
             try
             {
-                var contacto = new ContactoViewModel()
+                var contacto = datos.ObtenerId(id);
+                var view = new ContactoViewModel()
                 {
-                    IdContacto = id
+                    IdContacto = contacto.IdContacto,
+                    Nombre = contacto.Nombre,
+                    ApellidoPaterno = contacto.ApellidoPaterno,
+                    ApellidoMaterno = contacto.ApellidoMaterno,
+                    FechaNacimiento = contacto.FechaNacimiento.ToShortDateString(),
+                    Foto = contacto.Foto,
+                    Telefono = contacto.Telefono,
+                    Email = contacto.Email,
+                    IdUsuario = contacto.IdUsuario
                 };
-                return View(contacto);
+                return View(view);
             }
             catch (Exception ex)
             {
@@ -145,6 +272,19 @@ namespace WebAgenda.Controllers
         public ActionResult Buscar()
         {
             return View();
+        }
+        public ActionResult EliminarPerfil(int idPerfil, int idContacto)
+        {
+            int id = idContacto;
+            try
+            {
+                datosPerfil.EliminarPerfil(idPerfil);
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+            }
+            return RedirectToAction("EditarView", new { id });
         }
     }
 }

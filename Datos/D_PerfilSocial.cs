@@ -1,6 +1,7 @@
 ﻿using Datos.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +47,21 @@ namespace Datos
             }
             return list;
         }
+        public void Edit(ContactoRedSocial perfil)
+        {
+            try
+            {
+                using (var db = new GENERACION33Entities())
+                {
+                    db.ContactoRedSocial.AddOrUpdate(perfil);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public void DeleteContact(int id)
         {
             try
@@ -53,6 +69,22 @@ namespace Datos
                 using (var db = new GENERACION33Entities())
                 {
                     db.ContactoRedSocial.RemoveRange(db.ContactoRedSocial.Where(x => x.IdContacto == id));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void DeletePerfil(int id)
+        {
+            try
+            {
+                using (var db = new GENERACION33Entities())
+                {
+                    ContactoRedSocial perfil = db.ContactoRedSocial.Where(x => x.IdContactoRedSocial == id).FirstOrDefault();
+                    db.ContactoRedSocial.Remove(perfil);
                     db.SaveChanges();
                 }
             }

@@ -16,12 +16,23 @@
         {
             us = (WebAgenda.Models.UsuarioSessionViewModel)Session["Usuario"];
         }
+
+
     }
     @*<h3>@us.NickName</h3>*@
     <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                @*<img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">*@
+                @if (us.Foto.Any())
+                {
+                    <img src="~/Imagenes/@us.Foto" width="25" height="25" class="rounded-circle">
+                }
+                else
+                {
+                    <img src="~/Imagenes/wertyujkedfmncvhgchdjskasdmvnhcjdsmnfhjdks,dmsfjrsjenmlas.jpg" width="25" height="25" class="rounded-circle">
+                }
+
                 @us.NickName
             </a>
             <form class="search-bar position-relative mx-auto" style="max-width: 400px;" method="get" action="/Home/Buscar">
@@ -39,6 +50,14 @@
             </button>
             <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
                 <div class="offcanvas-header">
+                    @if (us.Foto.Any())
+                    {
+                        <img src="~/Imagenes/@us.Foto" width="80" height="80" class="rounded-circle">
+                    }
+                    else
+                    {
+                        <img src="~/Imagenes/wertyujkedfmncvhgchdjskasdmvnhcjdsmnfhjdks,dmsfjrsjenmlas.jpg" width="55" height="55" class="rounded-circle">
+                    }
                     <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">@us.Nombre @us.ApellidoPaterno @us.ApellidoMaterno</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>

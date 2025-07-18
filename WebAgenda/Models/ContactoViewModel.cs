@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Datos;
+using Datos.Model;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web;
-using Negocio;
-using Datos.Model;
-using Datos;
 
 namespace WebAgenda.Models
 {
@@ -22,6 +23,8 @@ namespace WebAgenda.Models
         public string Email { get; set; }
         [Display(Name = "Usuario")]
         public int IdUsuario { get; set; }
+        public List<int> IdPerfil { get; set; } = new List<int>();
+        public List<int> IdRedSocial { get; set; } = new List<int>();
         public List<String> RedSocial { get; set; } = new List<string>();
         public List<String> Perfil { get; set; } = new List<string>();
         public int Edad
@@ -38,6 +41,22 @@ namespace WebAgenda.Models
             set
             {
                 Edad = value;
+            }
+        }
+        public int BirthDay
+        {
+            get
+            {
+                int cumple = 0;
+                if (DateTime.Now.Day == Convert.ToDateTime(FechaNacimiento).Day && DateTime.Now.Month == Convert.ToDateTime(FechaNacimiento).Month)
+                {
+                    cumple = 1;
+                }
+                return cumple;
+            }
+            set
+            {
+                BirthDay = value;
             }
         }
     }

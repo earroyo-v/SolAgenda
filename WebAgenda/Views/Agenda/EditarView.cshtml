@@ -55,7 +55,15 @@
             @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-12 mt-4">
-                    <img src="~/Imagenes/@Model.Foto" class="rounded-circle" width="145" height="145" />
+                    @*<img src="~/Imagenes/@Model.Foto" class="rounded-circle" width="145" height="145" />*@
+                    @if (@Model.Foto.Any())
+                    {
+                        <img src="~/Imagenes/@Model.Foto" class="rounded-circle" width="145" height="145" />
+                    }
+                    else
+                    {
+                        <img src="~/Imagenes/wertyujkedfmncvhgchdjskasdmvnhcjdsmnfhjdks,dmsfjrsjenmlas.jpg" class="rounded-circle" width="145" height="145" />
+                    }
                     <div class="col-md-10">
                         <input type="hidden" name="Foto" value="@Model.Foto" />
                         <input type="file" name="ArchivoImagen" class="form-control" />

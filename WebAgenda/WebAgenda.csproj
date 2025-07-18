@@ -156,6 +156,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AgendaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,6 +178,7 @@
     <Content Include="Views\Agenda\AgregarView.cshtml" />
     <Content Include="Views\Agenda\EliminarView.cshtml" />
     <Content Include="Views\Agenda\EditarView.cshtml" />
+    <Content Include="Views\User\InfoView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

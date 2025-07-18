@@ -13,6 +13,10 @@ namespace Negocio
         D_Contacto contacto = new D_Contacto();
         public void Agregar(Contacto contact)
         {
+            if (contact.FechaNacimiento > DateTime.Now)
+            {
+                throw new Exception("La Fecha de nacimiento no puede ser mayor al dia de hoy");
+            }
             contacto.Create(contact);
         }
         public List<Contacto> Obtener(int id)
@@ -27,6 +31,10 @@ namespace Negocio
         }
         public void Editar(Contacto contact)
         {
+            if (contact.FechaNacimiento > DateTime.Now)
+            {
+                throw new Exception("La Fecha de nacimiento no puede ser mayor al dia de hoy");
+            }
             contacto.Update(contact);
         }
         public void Delete(int id)

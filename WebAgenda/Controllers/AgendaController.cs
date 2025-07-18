@@ -118,8 +118,9 @@ namespace WebAgenda.Controllers
             }
             catch (Exception ex)
             {
+                int id = view.IdContacto;
                 TempData["e"] = ex.Message;
-                return RedirectToAction("AgregarView");
+                return RedirectToAction("AgregarView", id);
             }
         }
         public ActionResult EditarView(int id)
@@ -225,8 +226,9 @@ namespace WebAgenda.Controllers
             }
             catch (Exception ex)
             {
+                int id = view.IdContacto;
                 TempData["e"] = ex.Message;
-                return RedirectToAction("EditarView");
+                return RedirectToAction("EditarView", new { id });
             }
         }
         public ActionResult EliminarView(int id)

@@ -26,6 +26,11 @@ namespace WebAgenda.Controllers
                 /////////(TIPO DE DATO) Session["x"] --> Session es un tipo de caja que gurada cualquier valor, 
                 ///para utilizar lo que hay adentro hay que hacer un unboxing y definir el tipo de dato que tiene la session
                 var us = (UsuarioSessionViewModel)Session["Usuario"];
+                if (us == null)
+                {
+                    TempData["e"] = "Sesion caducada";
+                    return View("Index", "Home");
+                }
                 foreach (var item in datos.Obtener(us.IdUsuario))
                 {
                     var contacto = new ContactoViewModel()

@@ -3,17 +3,40 @@
 @{
     Layout = "~/Views/Shared/_LayoutAgenda.cshtml";
     ViewBag.Title = "AgendaView";
+    var user = (WebAgenda.Models.UsuarioSessionViewModel)Session["Usuario"];
 }
+<div class="d-flex justify-content-between">
+    <h2>Mi Agenda</h2>
+    <div>
+        @if (user.BirthDay != 0)
+        {
+            <b class="btn me-2" style="color:darkblue"><strong>Feliz Cumpleaños @user.Nombre</strong></b>
+        }
+    </div>
+    <div>
+        <form class="search-bar position-relative mx-auto" style="max-width: 400px;" method="get" action="/Agenda/Buscar">
+            <input class="form-control ps-5 rounded-pill border-0 shadow-sm"
+                   type="search"
+                   placeholder="Buscar..."
+                   aria-label="Buscar"
+                   name="data">
+            <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
+                <i class="bi bi-search"></i>
+            </span>
+        </form>
+    </div>
+</div>
 
-<h2>Mi Agenda</h2>
 
 <p>
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-items-center">
         @if (TempData["t"] != null)
         {
             <p>Tienes <strong>@TempData["t"]</strong> contactos almacenados</p>
         }
-        <a href="/Agenda/AgregarView" class="btn btn-warning btn-sm">Nuevo Contacto</a>
+        <div class="ms-auto d-flex">
+            <a href="/Agenda/AgregarView" class="btn btn-warning btn-sm">Nuevo Contacto</a>
+        </div>
     </div>
 </p>
 @if (Model.Any()) //Any() es un metodo de LINQ devulve true si existe informacion

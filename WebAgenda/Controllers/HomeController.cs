@@ -1,10 +1,12 @@
 ﻿using Datos.Model;
+using Negocio;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Negocio;
+using System.Web.UI.WebControls;
 using WebAgenda.Models;
 
 namespace WebAgenda.Controllers
@@ -23,7 +25,7 @@ namespace WebAgenda.Controllers
             {
                 Usuario data = neg.ValidarIngreso(User, Password);
                 UsuarioSessionViewModel user = new UsuarioSessionViewModel()
-                {                    
+                {
                     IdUsuario = data.IdUsuario,
                     Nombre = data.Nombre,
                     ApellidoPaterno = data.ApellidoPaterno,
@@ -47,10 +49,25 @@ namespace WebAgenda.Controllers
         {
             return View();
         }
-        public ActionResult AgregarUsuario(Usuario user)
+        public ActionResult AgregarUsuario(Usuario user, HttpPostedFileBase ArchivoImagen)
         {
             try
             {
+                if (ArchivoImagen != null)
+                {
+                    if (ArchivoImagen.ContentType != "image/png" && ArchivoImagen.ContentType != "image/jpeg") throw new Exception("La imagen debe ser .png o jpg");
+                    string path = Server.MapPath("~/Imagenes");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    ArchivoImagen.SaveAs(Path.Combine(path, ArchivoImagen.FileName));
+                    user.Foto = ArchivoImagen.FileName;
+                }
+                else
+                {
+                    user.Foto = "";
+                }
                 neg.Agregar(user);
                 TempData["m"] = "El usuario se agrego correctamente";
                 return RedirectToAction("Index");

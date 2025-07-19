@@ -7,7 +7,7 @@ Insert Into Contacto Values('Sara','Posadas','Camrgo','2005-11-02','','555555556
 Insert Into RedSocial Values('Facebook')
 Insert Into RedSocial Values('Instagram')
 Insert Into RedSocial Values('TikTok')
-Insert Into RedSocial Values('WhatsApp')
+Insert Into RedSocial Values('Twitter')
 Insert Into ContactoRedSocial Values ('1','1','www.facebook.com\Juan')
 Insert Into ContactoRedSocial Values ('1','2','www.instagram.com\Juan')
 Insert Into ContactoRedSocial Values ('2','1','www.facebook.com\Anita')
@@ -30,7 +30,7 @@ right join RedSocial as r on cr.IdRedSocial = r.IdRedSocial
 where u.IdUsuario = 1 and c.IdContacto = 2
 
 --Perfil--
-ALTER PROCEDURE spPerfilSocial
+CREATE PROCEDURE spPerfilSocial
 @IdUsuario int,
 @IdContacto int
 as

@@ -303,7 +303,7 @@ namespace WebAgenda.Controllers
                     }
                     list.Add(contacto);
                 }
-                //TempData["t"] = list.Count;
+                TempData["te"] = list.Count;
                 return View("AgendaView", list);
             }
             catch (Exception ex)

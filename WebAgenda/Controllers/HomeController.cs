@@ -68,6 +68,7 @@ namespace WebAgenda.Controllers
                 //{
                 //    user.Foto = "";
                 //}
+                neg.ValidarUsuario(user.Email);
                 neg.Agregar(user);
                 TempData["m"] = "El usuario se agrego correctamente";
                 return RedirectToAction("Index");

@@ -55,5 +55,18 @@ namespace Negocio
             }
             return usuario;
         }
+        public string ValidarUsuario(string user)
+        {
+            string[] email = user.Split('@');
+            foreach (var item in datos.Read())
+            {
+                string[] eitem = item.Email.Split('@');
+                if (email[0] == eitem[0])
+                {
+                    throw new System.Exception("Este correo ya existe");
+                }
+            }
+            return user;
+        }
     }
 }

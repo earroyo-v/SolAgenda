@@ -35,7 +35,11 @@
     <div class="d-flex justify-items-center">
         @if (TempData["t"] != null)
         {
-            <p>Tienes <strong>@TempData["t"]</strong> contactos almacenados</p>
+            <p>Tienes <strong>@TempData["t"]</strong> contacto(s) almacenado(s)</p>
+        }
+        @if (TempData["te"] != null)
+        {
+            <p><strong>@TempData["te"]</strong> contacto(s) relacionado(s)</p>
         }
         <div class="ms-auto d-flex">
             <a href="/Agenda/AgregarView" class="btn btn-warning btn-sm">Nuevo Contacto</a>

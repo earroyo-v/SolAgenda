@@ -14,7 +14,7 @@
           <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
           <Property Name="FechaNacimiento" Type="date" Nullable="false" />
-          <Property Name="Foto" Type="varchar(max)" Nullable="false" />
+          <Property Name="Foto" Type="varchar(max)" />
           <Property Name="Telefono" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
@@ -44,11 +44,11 @@
           <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
           <Property Name="FechaNacimiento" Type="date" Nullable="false" />
-          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="NickName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Foto" Type="varchar(max)" Nullable="false" />
-          <Property Name="UrlPerfil" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Foto" Type="varchar(max)" />
+          <Property Name="UrlPerfil" Type="varchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK_Contacto_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
@@ -86,6 +86,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spBuscarContactos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="Data" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spPerfilSocial" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUsuario" Type="int" Mode="In" />
           <Parameter Name="IdContacto" Type="int" Mode="In" />
@@ -121,7 +125,7 @@
           <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
@@ -156,11 +160,11 @@
           <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UrlPerfil" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UrlPerfil" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_Usuario" FromRole="Usuario" ToRole="Contacto" />
         </EntityType>
         <Association Name="FK_Contacto_Usuario">
@@ -220,6 +224,10 @@
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
             <Parameter Name="IdContacto" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spBuscarContactos" ReturnType="Collection(GENERACION33Model.spBuscarContactos_Result)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Data" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spPerfilSocial_Result">
           <Property Type="Int32" Name="idPerfil" Nullable="true" />
@@ -227,6 +235,17 @@
           <Property Type="Int32" Name="IdRedSocial" Nullable="true" />
           <Property Type="String" Name="RedSocial" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="UrlPerfil" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spBuscarContactos_Result">
+          <Property Type="Int32" Name="IdContacto" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Foto" Nullable="true" />
+          <Property Type="String" Name="Telefono" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -291,6 +310,21 @@
                 <ScalarProperty Name="IdRedSocial" ColumnName="IdRedSocial" />
                 <ScalarProperty Name="RedSocial" ColumnName="RedSocial" />
                 <ScalarProperty Name="UrlPerfil" ColumnName="UrlPerfil" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spBuscarContactos" FunctionName="GENERACION33Model.Store.spBuscarContactos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENERACION33Model.spBuscarContactos_Result">
+                <ScalarProperty Name="IdContacto" ColumnName="IdContacto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

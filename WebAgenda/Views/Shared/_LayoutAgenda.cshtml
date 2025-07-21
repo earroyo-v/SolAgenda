@@ -16,15 +16,13 @@
         {
             us = (WebAgenda.Models.UsuarioSessionViewModel)Session["Usuario"];
         }
-
-
     }
     @*<h3>@us.NickName</h3>*@
     <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 @*<img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">*@
-                @if (us.Foto.Any())
+                @if (us.Foto?.Any() == true)
                 {
                     <img src="~/Imagenes/@us.Foto" width="25" height="25" class="rounded-circle">
                 }
@@ -35,22 +33,23 @@
 
                 @us.NickName
             </a>
-            <form class="search-bar position-relative mx-auto" style="max-width: 400px;" method="get" action="/Home/Buscar">
-                <input class="form-control ps-5 rounded-pill border-0 shadow-sm"
-                       type="search"
-                       placeholder="Buscar..."
-                       aria-label="Buscar"
-                       name="data">
-                <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
-                    <i class="bi bi-search"></i>
-                </span>
-            </form>
+            <img src="~/Imagenes/C-image-for-Netgen-1024x1024.png" width="46" height="46" class="position-fixed start-50 + translate-middle-x mt-0">
+            @*<form class="search-bar position-fixed + start-50 + translate-middle-x" style="max-width: 400px;" method="get" action="/Home/Buscar">
+                    <input class="form-control ps-5 rounded-pill border-0 shadow-sm"
+                           type="search"
+                           placeholder="Buscar..."
+                           aria-label="Buscar"
+                           name="data">
+                    <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
+                        <i class="bi bi-search"></i>
+                    </span>
+                </form>*@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
                 <div class="offcanvas-header">
-                    @if (us.Foto.Any())
+                    @if (us.Foto?.Any() == true)
                     {
                         <img src="~/Imagenes/@us.Foto" width="80" height="80" class="rounded-circle">
                     }
@@ -67,18 +66,18 @@
                             <a class="nav-link active" href="/Agenda/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/User/Index">Mi Perfil</a>
+                            <a class="nav-link" href="/User/Index/@us.IdUsuario">Mi Perfil</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Opciones
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" href="#">Editar informacion</a></li>
+                                <li><a class="dropdown-item" href="/User/EditarView/@us.IdUsuario">Editar informacion</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Cambiar Contrasena</a></li>
+                                <li><a class="dropdown-item" href="/User/CambiarPsswView/">Cambiar Contraseña</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Eliminar Cuenta</a></li>
+                                <li><a class="dropdown-item" href="/User/EliminarView">Eliminar Cuenta</a></li>
                             </ul>
                         </li>
                     </ul>

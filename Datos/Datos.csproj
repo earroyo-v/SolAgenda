@@ -82,6 +82,9 @@
     <Compile Include="Model\RedSocial.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\spBuscarContactos_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\spPerfilSocial_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

@@ -88,5 +88,21 @@ namespace Datos
                 throw ex;
             }
         }
+        public List<spBuscarContactos_Result> Search(int idUser, string data)
+        {
+            List<spBuscarContactos_Result> list = new List<spBuscarContactos_Result>();
+            try
+            {
+                using (var db = new GENERACION33Entities())
+                {
+                    list = db.spBuscarContactos(idUser, data).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
     }
 }

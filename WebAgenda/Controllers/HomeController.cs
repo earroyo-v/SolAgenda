@@ -64,10 +64,10 @@ namespace WebAgenda.Controllers
                     ArchivoImagen.SaveAs(Path.Combine(path, ArchivoImagen.FileName));
                     user.Foto = ArchivoImagen.FileName;
                 }
-                else
-                {
-                    user.Foto = "";
-                }
+                //else
+                //{
+                //    user.Foto = "";
+                //}
                 neg.Agregar(user);
                 TempData["m"] = "El usuario se agrego correctamente";
                 return RedirectToAction("Index");

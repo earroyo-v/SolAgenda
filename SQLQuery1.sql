@@ -44,3 +44,26 @@ order by r.Nombre asc
 END
 
 exec spPerfilSocial 1, 5
+
+--eliminar cuenta flujo
+select*from ContactoRedSocial as c
+inner join RedSocial as r on c.IdRedSocial = r.IdRedSocial
+where IdContacto in (select IdContacto from Contacto where IdUsuario = 4)
+select*from contacto where IdUsuario = 4
+select*from usuario where IdUsuario = 4
+
+ALTER PROCEDURE spBuscarContactos
+@IdUsuario int,
+@Data VARCHAR(50)
+AS
+BEGIN
+SELECT * FROM Contacto WHERE IdUsuario = @IdUsuario and 
+(Nombre like '%'+@Data+'%' or 
+ApellidoPaterno like '%'+@Data+'%' or 
+ApellidoMaterno like '%'+@Data+'%' or
+FechaNacimiento like '%'+@Data+'%' or 
+Telefono like '%'+@Data+'%' or
+Email like '%'+@Data+'%')
+END
+
+exec spBuscarContactos 2, ''

@@ -41,5 +41,9 @@ namespace Negocio
         {
             contacto.Delete(id);
         }
+        public List<spBuscarContactos_Result> BuscarContacto(int idUser, string data)
+        {
+            return contacto.Search(idUser, data);
+        }
     }
 }

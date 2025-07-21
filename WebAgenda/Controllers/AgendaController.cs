@@ -3,6 +3,7 @@ using Datos.Model;
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -26,11 +27,6 @@ namespace WebAgenda.Controllers
                 /////////(TIPO DE DATO) Session["x"] --> Session es un tipo de caja que gurada cualquier valor, 
                 ///para utilizar lo que hay adentro hay que hacer un unboxing y definir el tipo de dato que tiene la session
                 var us = (UsuarioSessionViewModel)Session["Usuario"];
-                if (us == null)
-                {
-                    TempData["e"] = "Sesion caducada";
-                    return View("Index", "Home");
-                }
                 foreach (var item in datos.Obtener(us.IdUsuario))
                 {
                     var contacto = new ContactoViewModel()
@@ -89,10 +85,10 @@ namespace WebAgenda.Controllers
                     ArchivoImagen.SaveAs(Path.Combine(Server.MapPath("~/Imagenes"), ArchivoImagen.FileName));
                     view.Foto = ArchivoImagen.FileName;
                 }
-                else
-                {
-                    view.Foto = "";
-                }
+                //else
+                //{
+                //    view.Foto = "";
+                //}
 
                 //Convertir viewmodel a model -> se agrga id user
                 var contacto = new Contacto()
@@ -184,10 +180,10 @@ namespace WebAgenda.Controllers
                     ArchivoImagen.SaveAs(Path.Combine(Server.MapPath("~/Imagenes"), ArchivoImagen.FileName));
                     view.Foto = ArchivoImagen.FileName;
                 }
-                else
-                {
-                    view.Foto = "";
-                }
+                //else
+                //{
+                //    view.Foto = "";
+                //}
                 //Convertir viewmodel a model
                 var contacto = new Contacto()
                 {
@@ -276,9 +272,45 @@ namespace WebAgenda.Controllers
                 return RedirectToAction("EliminarView", new { id });
             }
         }
-        public ActionResult Buscar()
+        public ActionResult Buscar(string data)
         {
-            return View();
+            try
+            {
+                if (!data.Any())
+                {
+                    return RedirectToAction("Index");
+                }
+                var user = (UsuarioSessionViewModel)Session["Usuario"];
+                List<ContactoViewModel> list = new List<ContactoViewModel>();
+                foreach (var item in datos.BuscarContacto(user.IdUsuario, data))
+                {
+                    var contacto = new ContactoViewModel()
+                    {
+                        IdContacto = item.IdContacto,
+                        Nombre = item.Nombre,
+                        ApellidoPaterno = item.ApellidoPaterno,
+                        ApellidoMaterno = item.ApellidoMaterno,
+                        FechaNacimiento = item.FechaNacimiento.ToShortDateString(),
+                        Foto = item.Foto,
+                        Telefono = item.Telefono,
+                        Email = item.Email,
+                        IdUsuario = item.IdUsuario
+                    };
+                    foreach (var otheritem in datosPerfil.Perfil(item.IdUsuario, item.IdContacto))
+                    {
+                        contacto.RedSocial.Add(otheritem.RedSocial);
+                        contacto.Perfil.Add(otheritem.UrlPerfil);
+                    }
+                    list.Add(contacto);
+                }
+                //TempData["t"] = list.Count;
+                return View("AgendaView", list);
+            }
+            catch (Exception ex)
+            {
+                TempData["e"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
         public ActionResult EliminarPerfil(int idPerfil, int idContacto)
         {

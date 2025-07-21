@@ -179,6 +179,9 @@
     <Content Include="Views\Agenda\EliminarView.cshtml" />
     <Content Include="Views\Agenda\EditarView.cshtml" />
     <Content Include="Views\User\InfoView.cshtml" />
+    <Content Include="Views\User\EditarView.cshtml" />
+    <Content Include="Views\User\EliminarView.cshtml" />
+    <Content Include="Views\User\CambiarPsswView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

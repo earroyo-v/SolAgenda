@@ -2,12 +2,13 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutAgenda.cshtml";
-    ViewBag.Title = "InfoView";
+    ViewBag.Title = "EliminarView";
 }
 
+<h3>Are you sure you want to delete this?</h3>
 <div class="card text-center">
     <div class="card-header">
-        Informacion Personal
+        Eliminar Cuenta
     </div>
     <div class="card-body">
         <div class="row">
@@ -25,10 +26,11 @@
         </div>
         <h5 class="card-title">@Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno</h5><br />
         <p class="card-text"><strong>NickName</strong><br />@Model.NickName</p>
-        <p class="card-text"><strong>Fecha de Nacimiento</strong><br />@Model.FechaNacimiento.ToShortDateString()</p>
-        <p class="card-text"><strong>Correo</strong><br />@Model.Email</p>
-        <p class="card-text"><strong>Linkedin</strong><br />@Model.UrlPerfil</p>
-        <a href="/User/EditarView/@Model.IdUsuario" class="btn btn-primary">Editar Perfil</a>
+
+        <form action="/User/Eliminar/@Model.IdUsuario" method="post">
+            <input type="hidden" name="IdUsuario" value="@Model.IdUsuario" />
+            <input type="submit" value="Elimnar Usuario" class="btn btn-danger" onclick="return confirm('La cuenta se eliminara permanetemente, junto con sus contacto. Estas seguro de continuar?')"/>
+        </form>
     </div>
     <div class="card-footer text-body-secondary">
         <a href="/Agenda/Index">Back to List</a>

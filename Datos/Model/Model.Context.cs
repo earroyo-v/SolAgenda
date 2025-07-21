@@ -44,5 +44,18 @@ namespace Datos.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spPerfilSocial_Result>("spPerfilSocial", idUsuarioParameter, idContactoParameter);
         }
+    
+        public virtual ObjectResult<spBuscarContactos_Result> spBuscarContactos(Nullable<int> idUsuario, string data)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var dataParameter = data != null ?
+                new ObjectParameter("Data", data) :
+                new ObjectParameter("Data", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spBuscarContactos_Result>("spBuscarContactos", idUsuarioParameter, dataParameter);
+        }
     }
 }

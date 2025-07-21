@@ -7,7 +7,7 @@ using Datos;
 using Datos.Model;
 
 namespace Negocio
-{    
+{
     public class N_Usuario
     {
         D_Usuario datos = new D_Usuario();
@@ -27,6 +27,10 @@ namespace Negocio
         }
         public void Editar(Usuario user)
         {
+            if (user.Password == null)
+            {
+                user.Password = datos.ReadId(user.IdUsuario).Password;
+            }
             datos.Update(user);
         }
         public void Borrar(int id)
@@ -39,6 +43,15 @@ namespace Negocio
             if (usuario == null)
             {
                 throw new System.Exception("Usuario o contrasena incorrectos");
+            }
+            return usuario;
+        }
+        public Usuario ValidarPassword(string usr, string pssw)
+        {
+            Usuario usuario = datos.ReadUser(usr, pssw);
+            if (usuario == null)
+            {
+                throw new System.Exception("Contrasena incorrecta");
             }
             return usuario;
         }

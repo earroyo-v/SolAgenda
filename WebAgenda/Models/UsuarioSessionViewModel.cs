@@ -16,6 +16,17 @@ namespace WebAgenda.Models
         public string NickName { get; set; }
         public string Foto { get; set; }
         public string UrlPerfil { get; set; }
+        public string FechaString
+        {
+            get
+            {
+                return FechaNacimiento.ToString("yyyy-MM-dd");
+            }
+            set
+            {
+                FechaString = value;
+            }
+        }
         public int BirthDay
         {
             get
